@@ -17,7 +17,8 @@ class _UniversityFormWidgetState extends State<UniversityFormWidget> {
   }
 
   Future<void> addUser(String name, String email, int age) {
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    CollectionReference users =
+        FirebaseFirestore.instance.collection('universities');
 
     return users
         .add({
@@ -41,6 +42,17 @@ class _UniversityFormWidgetState extends State<UniversityFormWidget> {
   }
 
   void _submitForm() {
+    final db = FirebaseFirestore.instance;
+
+    final user = <String, dynamic>{
+      "first": "Ada",
+      "last": "Lovelace",
+      "born": 1815
+    };
+
+// Add a new document with a generated ID
+    db.collection("universities").add(user).then((DocumentReference doc) =>
+        print('DocumentSnapshot added with ID: ${doc.id}'));
     if (_formKey.currentState!.validate()) {
       addUniversity(_nameController.text.trim());
       _nameController.clear();

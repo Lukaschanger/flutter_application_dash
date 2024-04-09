@@ -1,6 +1,7 @@
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_dash/UniversityFormWidget.dart';
+import 'package:flutter_application_dash/testwidget.dart';
 import 'vertical_navbar.dart';
 import 'university_dropdown.dart'; // Make sure to import your new widget
 
@@ -35,7 +36,9 @@ class _OptionsScreenState extends State<OptionsScreen> {
                   UniversityDropdown(), // Use your new UniversityDropdown widget
                   Spacer(),
                   UniversityFormWidget(),
-                  Spacer(), // To push the logout button to the bottom of the screen
+                  Spacer(),
+                  AddUniversityWidget(), // To push the logout button to the bottom of the screen
+                  Spacer(),
                   SignOutButton(),
                 ],
               ),

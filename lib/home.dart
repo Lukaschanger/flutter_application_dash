@@ -18,9 +18,12 @@ class HomeScreen extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(12),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+              child: GridView.count(
+                crossAxisCount: 2, // Two cards per row
+                crossAxisSpacing: 12, // Horizontal space between cards
+                mainAxisSpacing: 12, // Vertical space between cards
+                childAspectRatio: (3 /
+                    1), // Adjust this value to control card size, e.g., 3/1 makes each card three times as wide as its height
                 children: const [
                   StatCard(
                     title: 'Number of Students',
@@ -29,7 +32,6 @@ class HomeScreen extends StatelessWidget {
                     icon: Icons.people,
                     color: Colors.redAccent,
                   ),
-                  SizedBox(height: 12),
                   StatCard(
                     title: 'Penetration App',
                     value: '16',
@@ -37,13 +39,19 @@ class HomeScreen extends StatelessWidget {
                     icon: Icons.assignment,
                     color: Colors.blueAccent,
                   ),
-                  SizedBox(height: 12),
                   StatCard(
                     title: 'App Users',
                     value: '250\$',
                     change: 'No more fees this semester',
                     icon: Icons.account_balance_wallet,
                     color: Colors.amber,
+                  ),
+                  StatCard(
+                    title: 'Random Data',
+                    value: '42',
+                    change: 'Random fluctuation',
+                    icon: Icons.shuffle,
+                    color: Colors.greenAccent,
                   ),
                 ],
               ),
