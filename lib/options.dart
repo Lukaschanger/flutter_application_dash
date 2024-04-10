@@ -1,7 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_dash/UniversityFormWidget.dart';
-import 'package:flutter_application_dash/testwidget.dart';
+import 'package:flutter_application_dash/AddUniversityWidget.dart';
 import 'vertical_navbar.dart';
 import 'university_dropdown.dart'; // Make sure to import your new widget
 
@@ -33,13 +33,22 @@ class _OptionsScreenState extends State<OptionsScreen> {
                     style: Theme.of(context).textTheme.headline6,
                   ),
                   SizedBox(height: 20), // Space between header and dropdown
-                  UniversityDropdown(), // Use your new UniversityDropdown widget
-                  Spacer(),
-                  UniversityFormWidget(),
-                  Spacer(),
                   AddUniversityWidget(), // To push the logout button to the bottom of the screen
                   Spacer(),
-                  SignOutButton(),
+                  TextButton(
+                    style: ButtonStyle(
+                      foregroundColor:
+                          MaterialStateProperty.all<Color>(Colors.blue),
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.grey[350]),
+                    ),
+                    onPressed: () {
+                      FirebaseAuth.instance.signOut();
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, '/', (Route<dynamic> route) => false);
+                    },
+                    child: const Text('SignOut'),
+                  )
                 ],
               ),
             ),
