@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'university_logo_uploader.dart'; // Assuming you have this file ready
+import 'university_logo_uploader.dart';
 
 class AddUniversityWidget extends StatefulWidget {
   @override
@@ -37,7 +37,6 @@ class _AddUniversityWidgetState extends State<AddUniversityWidget> {
 
     // Calculate app penetration as a whole number
     final double appPenetrationRate = (usersApp / numberStudents) * 100;
-
     setState(() {
       _appPenetration =
           appPenetrationRate; // Store the whole number, not a decimal
@@ -111,6 +110,8 @@ class _AddUniversityWidgetState extends State<AddUniversityWidget> {
               labelText: 'Newly Enrolled Students Last Semester'),
           keyboardType: TextInputType.number,
         ),
+        SizedBox(height: 20),
+        UploadLogoButton(),
         SizedBox(height: 20),
         ElevatedButton(
           onPressed: _addUniversity,

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'vertical_navbar.dart'; // Make sure to import the VerticalNavbar widget
+import 'package:flutter_application_dash/university_logo_uploader.dart';
+import 'vertical_navbar.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // Define a darker orange color
+    Color darkOrange = Color(0xFFF57C00);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Contact'),
@@ -11,45 +16,56 @@ class ContactScreen extends StatelessWidget {
       ),
       body: Row(
         children: [
-          VerticalNavbar(), // Your custom vertical navigation bar
+          VerticalNavbar(), // Ensure this navbar aligns with the design
           Expanded(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  const SizedBox(height: 20),
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.grey[300],
-                    child: const Text(
-                        'LK'), // Placeholder text or you can put an image here
-                  ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    'Lukas Kromminga',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+            child: SingleChildScrollView(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(
+                        height:
+                            10), // Reduced space to move content closer to the top
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundImage: AssetImage(
+                          'assets/images/Lukas_OrangeBackground.jpg'),
                     ),
-                  ),
-                  Text(
-                    'Co-Founder',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey[600],
+                    SizedBox(height: 20),
+                    Text(
+                      'Lukas Kromminga',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: darkOrange, // Darker orange for text
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    '1-800-225-5532',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.blue,
-                      decoration: TextDecoration.underline,
+                    Text(
+                      'Co-Founder',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey[700],
+                      ),
                     ),
-                  ),
-                ],
+                    SizedBox(height: 20),
+                    Divider(),
+                    ListTile(
+                      leading: Icon(Icons.location_on, color: darkOrange),
+                      title: Text('Birkenhof 2, 72070, Dußlingen, Germany'),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.phone, color: darkOrange),
+                      title: Text('1-800-225-5532'),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.email, color: darkOrange),
+                      title: Text('lukas@connou.app'),
+                      onTap: () =>
+                          launchUrl(Uri.parse('mailto:lukas@connou.app')),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

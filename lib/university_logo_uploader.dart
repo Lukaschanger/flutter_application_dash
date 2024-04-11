@@ -1,57 +1,75 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
-class UniversityLogoUploader extends StatefulWidget {
-  final TextEditingController nameController;
-
-  UniversityLogoUploader({Key? key, required this.nameController})
-      : super(key: key);
-
+class UploadLogoButton extends StatefulWidget {
   @override
-  _UniversityLogoUploaderState createState() => _UniversityLogoUploaderState();
+  _UploadLogoButtonState createState() => _UploadLogoButtonState();
 }
 
-class _UniversityLogoUploaderState extends State<UniversityLogoUploader> {
-  Uint8List? _universityLogo;
-  String? _uploadedFileURL;
-  String _statusMessage = '';
+class _UploadLogoButtonState extends State<UploadLogoButton> {
+  final picker = ImagePicker();
 
-  Future<void> _pickLogo() async {
-    // ... your existing code for picking the logo ...
-  }
+  Future<void> uploadLogo() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-  Future<void> _uploadLogo() async {
-    final String universityName = widget.nameController.text;
-    if (_universityLogo == null || universityName.isEmpty) {
-      setState(() {
-        _statusMessage = 'Please enter a name and pick an image first.';
-      });
-      return;
-    }
+    if (pickedFile != null) {
+      Uint8List? imageBytes;
+      String fileName =
+          'university_logos/${DateTime.now().millisecondsSinceEpoch.toString()}.png';
 
-    final fileName = 'university_logos/$universityName.png';
-    final ref = FirebaseStorage.instance.ref().child(fileName);
+      if (kIsWeb) {
+        // On web, we work with bytes
+        imageBytes = await pickedFile.readAsBytes();
+      }
 
-    try {
-      // ... your existing code for uploading the logo ...
-    } catch (e) {
-      // ... your existing error handling code ...
+      try {
+        // Upload image to Firebase Storage
+        TaskSnapshot taskSnapshot;
+
+        if (kIsWeb && imageBytes != null) {
+          // Upload bytes directly if it's a web app
+          taskSnapshot =
+              await FirebaseStorage.instance.ref(fileName).putData(imageBytes);
+        } else {
+          // Fallback for non-web platforms
+          File imageFile = File(pickedFile.path);
+          taskSnapshot =
+              await FirebaseStorage.instance.ref(fileName).putFile(imageFile);
+        }
+
+        // Get image URL from Firebase Storage
+        String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+
+        // Add image URL to Firestore collection
+        await FirebaseFirestore.instance.collection('universities').add({
+          'logo': downloadUrl,
+          'timestamp': FieldValue.serverTimestamp(),
+        });
+
+        // Show a success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Logo uploaded successfully!')),
+        );
+      } catch (e) {
+        // Handle errors
+        print(e);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error uploading logo: $e')),
+        );
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // ... your existing code for build method ...
-        ElevatedButton(
-          onPressed: _uploadLogo, // Update to call _uploadLogo directly
-          child: Text('Upload Logo'),
-        ),
-        // ... your existing code ...
-      ],
+    return ElevatedButton(
+      onPressed: uploadLogo,
+      child: Text('Upload University Logo'),
     );
   }
 }
