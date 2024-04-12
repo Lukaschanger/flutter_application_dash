@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_dash/university_logo_uploader.dart';
 import 'vertical_navbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 

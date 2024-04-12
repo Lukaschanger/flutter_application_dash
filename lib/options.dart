@@ -1,10 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_dash/AddUniversityWidget.dart';
-import 'package:flutter_application_dash/university_logo_uploader.dart';
 import 'vertical_navbar.dart';
-import 'university_dropdown.dart'; // Make sure to import your new widget
 
 class OptionsScreen extends StatefulWidget {
   @override
