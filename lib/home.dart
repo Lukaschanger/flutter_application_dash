@@ -12,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String? _selectedUniversityId;
+  String? _selectedUniversityId = "wFfHSatiVSqW9LJQzwpr";
   Map<String, dynamic> _universityData = {
     'number_students': '0',
     'app_penetration': '0',

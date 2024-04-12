@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'vertical_navbar.dart';
+import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactScreen extends StatelessWidget {
@@ -23,9 +24,7 @@ class ContactScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(
-                        height:
-                            10), // Reduced space to move content closer to the top
+                    SizedBox(height: 10),
                     CircleAvatar(
                       radius: 50,
                       backgroundImage: AssetImage(
@@ -37,7 +36,7 @@ class ContactScreen extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: darkOrange, // Darker orange for text
+                        color: darkOrange,
                       ),
                     ),
                     Text(
@@ -48,6 +47,12 @@ class ContactScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 20),
+                    Lottie.asset(
+                      'assets/animations/lottie_students.json',
+                      width: 200, // Set the width to fit your layout
+                      height: 200, // Set the height to fit your layout
+                      repeat: true, // Set to true if you want it to loop
+                    ),
                     Divider(),
                     ListTile(
                       leading: Icon(Icons.location_on, color: darkOrange),
