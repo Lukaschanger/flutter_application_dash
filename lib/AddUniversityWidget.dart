@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'university_logo_uploader.dart';
+import 'university_logo_uploader.dart'; // Make sure this import points to the correct file
 
 class AddUniversityWidget extends StatefulWidget {
   @override
@@ -13,9 +13,10 @@ class _AddUniversityWidgetState extends State<AddUniversityWidget> {
       TextEditingController();
   final TextEditingController _usersAppController = TextEditingController();
   final TextEditingController _newlyEnrolledController =
-      TextEditingController(); // Controller for new field
+      TextEditingController();
   String _statusMessage = '';
-  double? _appPenetration; // Variable to store calculated app penetration rate
+  double? _appPenetration;
+  String _logoUrl = ''; // New state variable to store the logo URL
 
   Future<void> _addUniversity() async {
     final String name = _nameController.text;
@@ -33,6 +34,13 @@ class _AddUniversityWidgetState extends State<AddUniversityWidget> {
         _statusMessage = 'Please fill in all fields with valid data.';
       });
       return;
+    }
+
+    if (_logoUrl.isEmpty) {
+      setState(() {
+        _statusMessage = 'Please upload a logo before submitting.';
+      });
+      return; // Exit the function if no logo URL is available
     }
 
     // Calculate app penetration as a whole number
@@ -69,6 +77,7 @@ class _AddUniversityWidgetState extends State<AddUniversityWidget> {
           'app_penetration':
               appPenetrationRate, // Store the whole number percentage
           'newly_enrolled': newlyEnrolled,
+          'logo': _logoUrl // Include the logo URL in the update
         });
         _statusMessage = 'University added successfully!';
       }
@@ -104,14 +113,19 @@ class _AddUniversityWidgetState extends State<AddUniversityWidget> {
           keyboardType: TextInputType.number,
         ),
         TextField(
-          controller:
-              _newlyEnrolledController, // New TextField for newly enrolled students
+          controller: _newlyEnrolledController,
           decoration: InputDecoration(
               labelText: 'Newly Enrolled Students Last Semester'),
           keyboardType: TextInputType.number,
         ),
         SizedBox(height: 20),
-        UploadLogoButton(),
+        UploadLogoButton(
+          onUploaded: (String url) {
+            setState(() {
+              _logoUrl = url;
+            });
+          },
+        ),
         SizedBox(height: 20),
         ElevatedButton(
           onPressed: _addUniversity,
@@ -129,7 +143,7 @@ class _AddUniversityWidgetState extends State<AddUniversityWidget> {
     _nameController.dispose();
     _numberStudentsController.dispose();
     _usersAppController.dispose();
-    _newlyEnrolledController.dispose(); // Dispose the new controller
+    _newlyEnrolledController.dispose();
     super.dispose();
   }
 }
