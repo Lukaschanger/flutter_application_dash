@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'university_logo_uploader.dart'; // Make sure this import points to the correct file
+import 'university_logo_uploader.dart'; // Ensure this points to the correct file
 
 class AddUniversityWidget extends StatefulWidget {
   @override
@@ -15,15 +15,14 @@ class _AddUniversityWidgetState extends State<AddUniversityWidget> {
   final TextEditingController _newlyEnrolledController =
       TextEditingController();
   String _statusMessage = '';
-  double? _appPenetration;
-  String _logoUrl = ''; // New state variable to store the logo URL
+  int? _appPenetration; // Changed to int to store rounded penetration rate
+  String _logoUrl = '';
 
   Future<void> _addUniversity() async {
     final String name = _nameController.text;
     final int? numberStudents = int.tryParse(_numberStudentsController.text);
     final int? usersApp = int.tryParse(_usersAppController.text);
-    final int? newlyEnrolled =
-        int.tryParse(_newlyEnrolledController.text); // Get value for new field
+    final int? newlyEnrolled = int.tryParse(_newlyEnrolledController.text);
 
     if (name.isEmpty ||
         numberStudents == null ||
@@ -40,14 +39,13 @@ class _AddUniversityWidgetState extends State<AddUniversityWidget> {
       setState(() {
         _statusMessage = 'Please upload a logo before submitting.';
       });
-      return; // Exit the function if no logo URL is available
+      return;
     }
 
-    // Calculate app penetration as a whole number
-    final double appPenetrationRate = (usersApp / numberStudents) * 100;
+    // Calculate app penetration as an integer
+    final int appPenetrationRate = ((usersApp / numberStudents) * 100).round();
     setState(() {
-      _appPenetration =
-          appPenetrationRate; // Store the whole number, not a decimal
+      _appPenetration = appPenetrationRate;
       _statusMessage = 'Calculating...';
     });
 
@@ -63,9 +61,9 @@ class _AddUniversityWidgetState extends State<AddUniversityWidget> {
         await collectionRef.doc(querySnapshot.docs.first.id).update({
           'number_students': numberStudents,
           'users_app': usersApp,
-          'app_penetration':
-              appPenetrationRate, // Store the whole number percentage
+          'app_penetration': appPenetrationRate, // Use the integer value
           'newly_enrolled': newlyEnrolled,
+          'logo': _logoUrl
         });
         _statusMessage = 'University updated successfully!';
       } else {
@@ -74,10 +72,9 @@ class _AddUniversityWidgetState extends State<AddUniversityWidget> {
           'name': name,
           'number_students': numberStudents,
           'users_app': usersApp,
-          'app_penetration':
-              appPenetrationRate, // Store the whole number percentage
+          'app_penetration': appPenetrationRate, // Use the integer value
           'newly_enrolled': newlyEnrolled,
-          'logo': _logoUrl // Include the logo URL in the update
+          'logo': _logoUrl
         });
         _statusMessage = 'University added successfully!';
       }
@@ -89,7 +86,6 @@ class _AddUniversityWidgetState extends State<AddUniversityWidget> {
       _appPenetration = null;
     }
 
-    // Update the UI
     setState(() {});
   }
 
@@ -132,14 +128,17 @@ class _AddUniversityWidgetState extends State<AddUniversityWidget> {
           child: Text('Add University'),
         ),
         if (_appPenetration != null)
-          Text('App Penetration Rate: ${_appPenetration!.toStringAsFixed(2)}%'),
+          Text(
+              'App Penetration Rate: ${_appPenetration}%'), // Display as integer
         Text(_statusMessage),
+        // ...
       ],
     );
   }
 
   @override
   void dispose() {
+    // Dispose controllers
     _nameController.dispose();
     _numberStudentsController.dispose();
     _usersAppController.dispose();
