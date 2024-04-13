@@ -72,28 +72,30 @@ class _HomeScreenState extends State<HomeScreen> {
                           title: 'Number of Students',
                           value: _universityData['number_students'].toString(),
                           change:
-                              'Updated', // You could make this dynamic based on data
+                              'The number of students that attend this university.',
                           icon: Icons.people,
                           color: Colors.redAccent,
                         ),
                         StatCard(
                           title: 'App Penetration',
                           value: '${_universityData['app_penetration']}%',
-                          change: 'Updated',
+                          change:
+                              'The percentage of students that uses Connou.',
                           icon: Icons.show_chart,
                           color: Colors.blueAccent,
                         ),
                         StatCard(
                           title: 'App Users',
                           value: _universityData['users_app'].toString(),
-                          change: 'Updated',
+                          change: 'Absolut number of students that use Connou.',
                           icon: Icons.phone_iphone,
                           color: Colors.amber,
                         ),
                         StatCard(
                           title: 'Newly Enrolled Students',
                           value: _universityData['newly_enrolled'].toString(),
-                          change: 'Updated',
+                          change:
+                              'Students that newly enrolled in the last semester.',
                           icon: Icons.school,
                           color: Colors.greenAccent,
                         ),

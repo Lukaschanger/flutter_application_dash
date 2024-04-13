@@ -47,12 +47,6 @@ class ContactScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 20),
-                    Lottie.asset(
-                      'assets/animations/lottie_students.json',
-                      width: 200, // Set the width to fit your layout
-                      height: 200, // Set the height to fit your layout
-                      repeat: true, // Set to true if you want it to loop
-                    ),
                     Divider(),
                     ListTile(
                       leading: Icon(Icons.location_on, color: darkOrange),

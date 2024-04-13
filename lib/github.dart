@@ -31,7 +31,7 @@ class GithubSignInButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
-      icon: Icon(Icons.code), // GitHub icon or similar if you have an asset
+      icon: Icon(Icons.code), // coding icon
       label: Text('Sign in with GitHub'),
       onPressed: () => signInWithGithub(context),
       style: ElevatedButton.styleFrom(

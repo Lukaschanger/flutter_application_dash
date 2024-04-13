@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_dash/github.dart';
 
 import 'home.dart';
-import 'github.dart'; // Make sure this file contains your GithubSignInButton widget
 
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
