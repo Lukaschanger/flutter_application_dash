@@ -3,31 +3,46 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-class UploadLogoButton extends StatefulWidget {
-  final Function(String) onUploaded;
+// Defines a widget for uploading university logos to Firebase Storage.
+class UniversityLogoUploader extends StatefulWidget {
+  // Callback function to handle the URL of the uploaded image.
+  final Function(String) onLogoUploaded;
 
-  UploadLogoButton({required this.onUploaded});
+  // Constructor that requires the callback function.
+  UniversityLogoUploader({required this.onLogoUploaded});
 
   @override
-  _UploadLogoButtonState createState() => _UploadLogoButtonState();
+  _UniversityLogoUploaderState createState() => _UniversityLogoUploaderState();
 }
 
-class _UploadLogoButtonState extends State<UploadLogoButton> {
-  final ImagePicker picker = ImagePicker();
+class _UniversityLogoUploaderState extends State<UniversityLogoUploader> {
+  // ImagePicker instance for picking images from the gallery.
+  final ImagePicker _picker = ImagePicker();
 
-  Future<void> uploadLogo() async {
+  // Method to handle the process of uploading a logo.
+  Future<void> _uploadUniversityLogo() async {
+    // Open the image gallery to pick an image.
     final XFile? pickedFile =
-        await picker.pickImage(source: ImageSource.gallery);
+        await _picker.pickImage(source: ImageSource.gallery);
+
+    // Check if an image was selected.
     if (pickedFile != null) {
+      // Read the image file as a list of bytes.
       Uint8List imageBytes = await pickedFile.readAsBytes();
+      // Create a unique file name based on the current timestamp.
       String fileName =
-          'university_logos/${DateTime.now().millisecondsSinceEpoch.toString()}.png';
+          'university_logos/${DateTime.now().millisecondsSinceEpoch}.png';
+
       try {
+        // Upload the image to Firebase Storage and retrieve the download URL.
         TaskSnapshot taskSnapshot =
             await FirebaseStorage.instance.ref(fileName).putData(imageBytes);
         String downloadUrl = await taskSnapshot.ref.getDownloadURL();
-        widget.onUploaded(downloadUrl); // Use the callback to pass the URL back
+
+        // Invoke the callback function with the URL of the uploaded image.
+        widget.onLogoUploaded(downloadUrl);
       } catch (e) {
+        // Log any errors during the upload process.
         print("Error uploading image: $e");
       }
     }
@@ -35,8 +50,9 @@ class _UploadLogoButtonState extends State<UploadLogoButton> {
 
   @override
   Widget build(BuildContext context) {
+    // Provides a button to trigger the upload process.
     return ElevatedButton(
-      onPressed: uploadLogo,
+      onPressed: _uploadUniversityLogo,
       child: Text('Upload University Logo'),
     );
   }
