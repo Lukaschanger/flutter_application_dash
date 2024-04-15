@@ -1,16 +1,30 @@
-# flutter_application_dash
+# Flutter Application Dashboard
 
-A new Flutter project.
+This repository contains the source code for a Flutter-based dashboard application. Below you will find the instructions to get started with the project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-A few resources to get you started if this is your first Flutter project:
+### Prerequisites
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Before you can run this project, you need to have the following software installed:
+- Docker
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Installation
+
+1. **Clone the repository**
+
+   Use Git to clone the project's repository into your local machine:
+
+   ```bash
+   git clone https://github.com/Lukaschanger/flutter_application_dash.git
+
+
+2. **Docker**
+
+   Make sure Docker is running on your system. 
+
+3. **Run**
+
+   Run the program on your local Docker container with ./run.bash
